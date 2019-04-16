@@ -20,8 +20,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.manifold import TSNE
 from typing import Iterable
 
-from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+from gensim.models.word2vec import Word2Vec
 from nltk import tokenize, casual_tokenize
+import nltk 
 from zipfile import ZipFile
 from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktTrainer
 from nltk.corpus import stopwords
@@ -29,10 +30,10 @@ from nltk.corpus import stopwords
 print('load packages done')
 
 # defines vocabulary size and vector dimension
-voc_size = 50000
-vec_dim  = 200
-model_name = 'ALL'
-directory_name = 'doc2vec_v50k_d200_shuffled_sentences'
+voc_size = 20480
+vec_dim  = 256
+model_name = 'cc'
+directory_name = 'word2vec_v20480_d256_shuffled_opinion'
 
 
 # configues loggin
@@ -49,23 +50,23 @@ os.chdir(wd)
 print(wd + ' is wd')
 
 #read zipfiles
-zfile_cc = ZipFile('/data/Projects/judge_embedding_data_sp18/sentences.zip', allowZip64 = True)
+zfile_cc = ZipFile('/data/Data/Circuit_Courts/circuit-cases/sentences.zip', allowZip64 = True)
 items_cc = [("cc", x) for x in zfile_cc.namelist()]
 items_cc = [x for x in items_cc if '.txt' in x[1]]
+items_cc = [x for x in items_cc if int(x[1].split("/")[1].split("_")[1]) in range(1970,2006)]
 
+#zfile_sc = ZipFile('/data/Data/Supreme_Court_Cases/SC_Cases_1880_2016.zip', allowZip64 = True)
+#items_sc = [("sc", x) for x in zfile_sc.namelist()]
+#items_sc = [x for x in items_sc if '.txt' in x[1]]
 
-zfile_sc = ZipFile('/data/Data/Supreme_Court_Cases/SC_Cases_1880_2016.zip', allowZip64 = True)
-items_sc = [("sc", x) for x in zfile_sc.namelist()]
-items_sc = [x for x in items_sc if '.txt' in x[1]]
-
-items_cc.extend(items_sc)
+#items_cc.extend(items_sc)
 shuffle(items_cc)
 
 #removing stopword
-stopwords_year = [str(x) for x in list(range(1880,2020))]
+stopwords_year = [str(x) for x in list(range(1970,2005))]
 
 #get judgenames
-judge_bio = pandas.read_stata("/data/Projects/judge_embedding_data_sp18/JudgesBioReshaped_TOUSE.dta")
+judge_bio = pandas.read_stata("/data/Data/Judge-Bios/judgebios/JudgesBioReshaped_TOUSE.dta")
 #stopphrase_judge_songer_name = list(judge_bio["songername"])
 #stopphrase_wo_middle = [judge_bio['judgefirstname'][x]+" "+judge_bio['judgelastname'][x] for x in judge_bio.index]
 #stopphrase_w_middle = [judge_bio['judgefirstname'][x]+" "+judge_bio['judgemiddlename'][x]+" "+judge_bio['judgelastname'][x] for x in judge_bio.index]
@@ -94,15 +95,15 @@ def document_iterator_lines(list_of_docnames):
             print('%d files processed' % count)   
 
         if item[0] == "cc":
-            txt = zfile_cc.open(item[1],"r").readlines()
+            txt = zfile_cc.open(item[1],"r").read()
         else:
-            txt = zfile_sc.open(item[1],"r").readlines()
-            
-        for line_num,line in enumerate(txt):
-            line = line.decode("utf-8")
-            tokens = tokenize_no_punct_all_lower(line)
-            name = fname + '_' + str(line_num)
-            yield TaggedDocument(tokens, [name])
+            txt = zfile_sc.open(item[1],"r").read()
+        
+        txt = txt.decode("utf-8")
+        tokens = tokenize_no_punct_all_lower(txt)
+        tokens_tagged = nltk.pos_tag(tokens,tagset='universal')
+        tokens = [i[0] for i in tokens_tagged if i[1] in ["VERB","NOUN","ADJ","ADV"] ]
+        yield tokens
 
 #wraps generator in an iterable object
 class doc_iter(object):
@@ -123,15 +124,15 @@ sentences = doc_iter(items_cc)
 #print('word_frequency is ' + str(min_count_for_vocab))
 
 #original model
-model = Doc2Vec(max_vocab_size=voc_size, window=5, vector_size=vec_dim, sample=1e-4, negative=5, workers=16, dm=1)
+model = Word2Vec(max_vocab_size=voc_size, window=8, size=vec_dim, sample=1e-4, negative=5, workers=16)
 # builds the vocabulary
 model.build_vocab(sentences)
 
 # trains the embeddings
-model.train(sentences, total_examples=model.corpus_count, epochs=20)
+model.train(sentences, total_examples=model.corpus_count, epochs=16)
 
 # saves the model
-model.save(directory_name+'/'+model_name+'.d2v')
+model.save(directory_name+'/'+model_name+'.w2v')
 
 # saves word counts as pickle
 dictionary = {word: vocab.count for (word, vocab) in model.wv.vocab.items()}
