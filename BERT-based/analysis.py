@@ -12,7 +12,7 @@ import numpy as np
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 
-with open('/Users/Ani/Desktop/bert-topic-vecs.pkl', 'rb') as f:
+with open('/Users/Ani/Desktop/bert-topic-vecs2.pkl', 'rb') as f:
     v = pickle.load(f)
     f.close()
     
@@ -26,18 +26,18 @@ for i in range(10):
 del vecs[8]
 del vecs[0]
 
-matrix = np.zeros((8,30,3072))
+matrix = np.zeros((8,100,3072))
 
 for i in range(8):
-    for j in range(30):
+    for j in range(100):
         matrix[i][j] = vecs[i][j][1]
         
 X = matrix[0]        
 for i in range(7):
     X = np.concatenate((X,matrix[i+1]))
     
-Y1= PCA(n_components=10).fit_transform(X)   
-Y = TSNE(n_components=2).fit_transform(Y1)     
+#Y1= PCA(n_components=15).fit_transform(X)   
+Y = TSNE(n_components=2).fit_transform(X)     
 #Y_1 = PCA(n_components=20).fit_transform(matrix[0])
 #Y_2 = PCA(n_components=20).fit_transform(matrix[1])
 #Y_3 = PCA(n_components=20).fit_transform(matrix[2])
@@ -63,8 +63,8 @@ Y = TSNE(n_components=2).fit_transform(Y1)
 #         X_5.T[0],X_5.T[1],'c+', X_6.T[0],X_6.T[1],'m+',
 #         X_7.T[0],X_7.T[1],'k+',X_8.T[0],X_8.T[1],'m*')
 
-plt.plot(Y.T[0][0:30],Y.T[1][0:30],'r+', Y.T[0][30:60],Y.T[1][30:60],'b+',
-         Y.T[0][60:90],Y.T[1][60:90],'g+',Y.T[0][90:120],Y.T[1][90:120],'y+',
-         Y.T[0][120:150],Y.T[1][120:150],'c+', Y.T[0][150:180],Y.T[1][150:180],'m+',
-         Y.T[0][180:210],Y.T[1][180:210],'k+',Y.T[0][210:240],Y.T[1][210:240],'m*')
+plt.plot(Y.T[0][0:100],Y.T[1][0:100],'r+', Y.T[0][100:200],Y.T[1][100:200],'b+',
+         Y.T[0][200:300],Y.T[1][200:300],'g+',Y.T[0][300:400],Y.T[1][300:400],'y+',
+         Y.T[0][400:500],Y.T[1][400:500],'c+', Y.T[0][500:600],Y.T[1][500:600],'m+',
+         Y.T[0][600:700],Y.T[1][600:700],'k+')
                 
