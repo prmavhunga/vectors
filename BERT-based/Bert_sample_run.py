@@ -121,7 +121,7 @@ for i in range(10):
         random.shuffle(geniss[i])
         print('topic_'+str(i)+'started...')
         for j in range(vec_number):
-            print(str(j)+'.')
+            print(str(j)+'.'+geniss[i][j])
             vectors[i].append((geniss[i][j],bert_doc_embed(geniss[i][j])))
             
         print('topic_'+str(i)+'completed')
