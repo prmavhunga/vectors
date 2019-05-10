@@ -7,6 +7,7 @@ Created on Fri May 10 10:24:26 2019
 """
 import pickle
 import matplotlib.pyplot as plt
+import torch
 
 
 with open('/Users/Ani/Desktop/bert-topic-vecs.pkl', 'rb') as f:

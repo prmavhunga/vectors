@@ -10,10 +10,13 @@ import pickle
 from flair.embeddings import BertEmbeddings
 from flair.data import Sentence
 import random
+import torch
 
 
 # initialize embedding
 embedding = BertEmbeddings('bert-base-uncased')
+#To avoid overflow. OBSERVED OVERFLOW AT >=300. Better if less than 250.
+MAX = 250
 
 def bert_doc_embed(path):
     
@@ -40,7 +43,7 @@ def bert_doc_embed(path):
         sentence = Sentence(f2)
         
         size = len(sentence)
-        if size<300:
+        if size<MAX:
             token_count = size
         
             #embed words in sentence
@@ -52,9 +55,9 @@ def bert_doc_embed(path):
         else:
             sentence = Sentence(f1[0])
             size = len(sentence)
-            if size>300:
+            if size>MAX:
                 print('bad sentences')
-                return []
+                return torch.tensor([])
             token_count = token_count + size
                 
             #embed words in sentence
@@ -75,7 +78,7 @@ def bert_doc_embed(path):
         sentence = Sentence(f1[0]+f1[1]+f1[2])
         
         size = len(sentence)
-        if size<300:
+        if size<MAX:
             token_count = token_count + size
         
         
@@ -88,9 +91,9 @@ def bert_doc_embed(path):
         else:
             sentence = Sentence(f1[0])
             size = len(sentence)
-            if size>300:
+            if size>MAX:
                 print('bad sentences')
-                return []
+                return torch.tensor([])
             token_count = token_count + size
                 
             #embed words in sentence
@@ -102,9 +105,9 @@ def bert_doc_embed(path):
             
             sentence = Sentence(f1[1])
             size = len(sentence)
-            if size>300:
+            if size>MAX:
                 print('bad sentences')
-                return []
+                return torch.tensor([])
              
             token_count = token_count + size
                 
@@ -116,9 +119,9 @@ def bert_doc_embed(path):
                 
             sentence = Sentence(f1[2])
             size = len(sentence)
-            if size>300:
+            if size>MAX:
                 print('bad sentences')
-                return []
+                return torch.tensor([])
              
             token_count = token_count + size
                 
@@ -134,7 +137,7 @@ def bert_doc_embed(path):
             sentence = Sentence(f1[3*(i+1)]+f1[3*(i+1)+1]+f1[3*(i+1)+2])
         
             size = len(sentence)
-            if size<300:
+            if size<MAX:
                 token_count = token_count + size
         
                 #embed words in sentence
@@ -146,9 +149,9 @@ def bert_doc_embed(path):
             else:
                 sentence = Sentence(f1[3*(i+1)])
                 size = len(sentence)
-                if size>300:
+                if size>MAX:
                     print('bad sentences')
-                    return []
+                    return torch.tensor([])
                  
                 token_count = token_count + size
                 
@@ -160,9 +163,9 @@ def bert_doc_embed(path):
  
                 sentence = Sentence(f1[3*(i+1)+1])
                 size = len(sentence)
-                if size>300:
+                if size>MAX:
                     print('bad sentences')
-                    return []
+                    return torch.tensor([])
                  
                 token_count = token_count + size
                 
@@ -174,9 +177,9 @@ def bert_doc_embed(path):
                      
                 sentence = Sentence(f1[3*(i+1)+2])
                 size = len(sentence)
-                if size>300:
+                if size>MAX:
                     print('bad sentences')
-                    return []
+                    return torch.tensor([])
  
                 token_count = token_count + size
                 
@@ -196,7 +199,7 @@ def bert_doc_embed(path):
             sentence = Sentence(f2)
         
             size = len(sentence)
-            if size<300:
+            if size<MAX:
                 
                 token_count = token_count + size
         
@@ -209,7 +212,7 @@ def bert_doc_embed(path):
         A = A/token_count
         print('embed success2')
         return A
-        
+     
     
 with open('/Users/Ani/Desktop/Geniss/geniss.pkl', 'rb') as f:
     geniss = pickle.load(f)
@@ -219,19 +222,30 @@ vectors = [[],[],[],[],[],[],[],[],[],[]]
 
         
 #number of vectors of each topic created
-vec_number = 30
+vec_number = 100
+min_sentences = 20
 
 for i in range(10):        
     if i!=0 and i!=8:
         random.shuffle(geniss[i])
         print('topic_'+str(i)+'started...')
-        for j in range(vec_number):
-            print(str(j)+'.'+geniss[i][j])
-            vectors[i].append((geniss[i][j],bert_doc_embed(geniss[i][j])))
+        j=0
+        k=0
+        while j<vec_number:
+            g = open(geniss[i][k],'r')
+            g1 = g.readlines()
+            g.close() 
+
+            if len(g1)>=min_sentences:
+                print(str(j+1)+'.'+geniss[i][k])
+                vectors[i].append((geniss[i][k],bert_doc_embed(geniss[i][k])))
+                j=j+1
+            
+            k=k+1
             
         print('topic_'+str(i)+'completed')
             
-file = open('/Users/Ani/Desktop/bert-topic-vecs.pkl','wb')
+file = open('/Users/Ani/Desktop/bert-topic-vecs2.pkl','wb')
 pickle.dump(vectors,file)
 file.close()            
             
