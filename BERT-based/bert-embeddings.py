@@ -13,7 +13,7 @@ from flair.data import Sentence
 # initialize embedding
 embedding = BertEmbeddings('bert-base-uncased')
 
-path = '/Users/Ani/Desktop/circuit-cases/sentences_new/sent_2008/X1A1MP8003_contentMajOp_DAMON J. KEITH.txt'
+#path = '/Users/Ani/Desktop/circuit-cases/sentences_new/sent_2008/X1A1MP8003_contentMajOp_DAMON J. KEITH.txt'
 
 
 def bert_doc_embed(path):
