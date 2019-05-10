@@ -32,14 +32,14 @@ for i in range(8):
     for j in range(30):
         matrix[i][j] = vecs[i][j][1]
         
-Y_1 = PCA(n_components=30).fit_transform(matrix[0])
-Y_2 = PCA(n_components=30).fit_transform(matrix[1])
-Y_3 = PCA(n_components=30).fit_transform(matrix[2])
-Y_4 = PCA(n_components=30).fit_transform(matrix[3])
-Y_5 = PCA(n_components=30).fit_transform(matrix[4])
-Y_6 = PCA(n_components=30).fit_transform(matrix[5])
-Y_7 = PCA(n_components=30).fit_transform(matrix[6])
-Y_8 = PCA(n_components=30).fit_transform(matrix[7])        
+Y_1 = PCA(n_components=20).fit_transform(matrix[0])
+Y_2 = PCA(n_components=20).fit_transform(matrix[1])
+Y_3 = PCA(n_components=20).fit_transform(matrix[2])
+Y_4 = PCA(n_components=20).fit_transform(matrix[3])
+Y_5 = PCA(n_components=20).fit_transform(matrix[4])
+Y_6 = PCA(n_components=20).fit_transform(matrix[5])
+Y_7 = PCA(n_components=20).fit_transform(matrix[6])
+Y_8 = PCA(n_components=20).fit_transform(matrix[7])        
         
         
 
