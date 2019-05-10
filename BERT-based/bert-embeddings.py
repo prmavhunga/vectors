@@ -23,7 +23,7 @@ MAX = 200
 # output: embed success2 - (No problems)
 # output: embed success1 - (number of sentences smaller than 3 in text. No problems)
 # output: bad sentences - (there is atleast one sentence that expands to a sentence longer than MAX
-#   after tokenisation for BERT. This case returns null torch tensor - torch.tensor([]))
+#   after tokenisation for BERT. This case returns zero torch tensor - torch.zeros(3072))
 
 def bert_doc_embed(path):
     
