@@ -245,7 +245,7 @@ for i in range(10):
 
             if len(g1)>=min_sentences:
                 print(str(j+1)+'.'+geniss[i][k])
-                vectors[i].append((geniss[i][k],bert_doc_embed(geniss[i][k])))
+                vectors[i].append([geniss[i][k],bert_doc_embed(geniss[i][k])])
                 j=j+1
             
             k=k+1
