@@ -64,7 +64,7 @@ def bert_doc_embed(path):
             size = len(sentence)
             if size>MAX:
                 print('bad sentences')
-                return torch.tensor([])
+                return torch.zeros(3072)
             token_count = token_count + size
                 
             #embed words in sentence
@@ -100,7 +100,7 @@ def bert_doc_embed(path):
             size = len(sentence)
             if size>MAX:
                 print('bad sentences')
-                return torch.tensor([])
+                return torch.zeros(3072)
             token_count = token_count + size
                 
             #embed words in sentence
@@ -114,7 +114,7 @@ def bert_doc_embed(path):
             size = len(sentence)
             if size>MAX:
                 print('bad sentences')
-                return torch.tensor([])
+                return torch.zeros(3072)
              
             token_count = token_count + size
                 
@@ -128,7 +128,7 @@ def bert_doc_embed(path):
             size = len(sentence)
             if size>MAX:
                 print('bad sentences')
-                return torch.tensor([])
+                return torch.zeros(3072)
              
             token_count = token_count + size
                 
@@ -158,7 +158,7 @@ def bert_doc_embed(path):
                 size = len(sentence)
                 if size>MAX:
                     print('bad sentences')
-                    return torch.tensor([])
+                    return torch.zeros(3072)
                  
                 token_count = token_count + size
                 
@@ -172,7 +172,7 @@ def bert_doc_embed(path):
                 size = len(sentence)
                 if size>MAX:
                     print('bad sentences')
-                    return torch.tensor([])
+                    return torch.zeros(3072)
                  
                 token_count = token_count + size
                 
@@ -186,7 +186,7 @@ def bert_doc_embed(path):
                 size = len(sentence)
                 if size>MAX:
                     print('bad sentences')
-                    return torch.tensor([])
+                    return torch.zeros(3072)
  
                 token_count = token_count + size
                 

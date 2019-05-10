@@ -14,4 +14,3 @@ with open('/Users/Ani/Desktop/bert-topic-vecs.pkl', 'rb') as f:
     v = pickle.load(f)
     f.close()
     
-plt.plot(v[2][3][1])

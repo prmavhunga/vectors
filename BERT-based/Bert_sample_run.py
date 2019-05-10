@@ -21,8 +21,8 @@ MAX = 200
 #for below function:
 # output: embed success2 - (No problems)
 # output: embed success1 - (number of sentences smaller than 3 in text. No problems)
-# output: bad sentences - (there is atleast one sentence that expands to a sentence longer than MAX-
-# -after tokenisation for BERT. This case returns null torch tensor - torch.tensor([]))
+# output: bad sentences - (there is atleast one sentence that expands to a sentence longer than MAX
+#   after tokenisation for BERT. This case returns null torch tensor - torch.tensor([]))
 
 def bert_doc_embed(path):
     
@@ -63,7 +63,7 @@ def bert_doc_embed(path):
             size = len(sentence)
             if size>MAX:
                 print('bad sentences')
-                return torch.tensor([])
+                return torch.zeros(3072)
             token_count = token_count + size
                 
             #embed words in sentence
@@ -99,7 +99,7 @@ def bert_doc_embed(path):
             size = len(sentence)
             if size>MAX:
                 print('bad sentences')
-                return torch.tensor([])
+                return torch.zeros(3072)
             token_count = token_count + size
                 
             #embed words in sentence
@@ -113,7 +113,7 @@ def bert_doc_embed(path):
             size = len(sentence)
             if size>MAX:
                 print('bad sentences')
-                return torch.tensor([])
+                return torch.zeros(3072)
              
             token_count = token_count + size
                 
@@ -127,7 +127,7 @@ def bert_doc_embed(path):
             size = len(sentence)
             if size>MAX:
                 print('bad sentences')
-                return torch.tensor([])
+                return torch.zeros(3072)
              
             token_count = token_count + size
                 
@@ -157,7 +157,7 @@ def bert_doc_embed(path):
                 size = len(sentence)
                 if size>MAX:
                     print('bad sentences')
-                    return torch.tensor([])
+                    return torch.zeros(3072)
                  
                 token_count = token_count + size
                 
@@ -171,7 +171,7 @@ def bert_doc_embed(path):
                 size = len(sentence)
                 if size>MAX:
                     print('bad sentences')
-                    return torch.tensor([])
+                    return torch.zeros(3072)
                  
                 token_count = token_count + size
                 
@@ -185,7 +185,7 @@ def bert_doc_embed(path):
                 size = len(sentence)
                 if size>MAX:
                     print('bad sentences')
-                    return torch.tensor([])
+                    return torch.zeros(3072)
  
                 token_count = token_count + size
                 
@@ -229,6 +229,7 @@ vectors = [[],[],[],[],[],[],[],[],[],[]]
         
 #number of vectors of each topic created
 vec_number = 100
+#minimum sentences that the text file needs to have
 min_sentences = 20
 
 for i in range(10):        
