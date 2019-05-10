@@ -15,7 +15,6 @@ embedding = BertEmbeddings('bert-base-uncased')
 
 #path = '/Users/Ani/Desktop/circuit-cases/sentences_new/sent_2008/X1A1MP8003_contentMajOp_DAMON J. KEITH.txt'
 
-
 def bert_doc_embed(path):
     
     f = open(path,'r')
@@ -24,8 +23,7 @@ def bert_doc_embed(path):
 
     #number of sentences in text file
     l = len(f1)
-    print('number of sentences in text file:')
-    print(l)
+    print('number of sentences in text file: '+str(l))
     
     diff = l%5
     quo = int((l-diff)/5)
@@ -53,7 +51,8 @@ def bert_doc_embed(path):
                 
         A = A/token_count
         
-        return A, token_count
+        print('embed success1')
+        return A
     
     else:
         
@@ -103,7 +102,8 @@ def bert_doc_embed(path):
                 A = A + sentence[j].embedding
             
         A = A/token_count
-        return A, token_count
+        print('embed success2')
+        return A
         
 B = bert_doc_embed(path)
     
