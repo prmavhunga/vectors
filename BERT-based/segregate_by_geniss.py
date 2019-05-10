@@ -24,9 +24,13 @@ for a in lis:
         geniss[int(a[2])].append(a[0])
         
 
-for i in range(10):        
-    
-    if i!=0 and i!=8:
-        file = open('/Users/Ani/Desktop/Geniss/geniss'+str(i)+'.pkl','wb')
-        pickle.dump(geniss[i],file)
-        file.close()
+#for i in range(10):        
+#    
+#    if i!=0 and i!=8:
+#        file = open('/Users/Ani/Desktop/Geniss/geniss'+str(i)+'.pkl','wb')
+#        pickle.dump(geniss[i],file)
+#        file.close()
+        
+file = open('/Users/Ani/Desktop/Geniss/geniss.pkl','wb')
+pickle.dump(geniss,file)
+file.close()
