@@ -25,8 +25,8 @@ def bert_doc_embed(path):
     l = len(f1)
     print('number of sentences in text file: '+str(l))
     
-    diff = l%5
-    quo = int((l-diff)/5)
+    diff = l%3
+    quo = int((l-diff)/3)
     
     #number of tokens
     token_count = 0
@@ -40,14 +40,29 @@ def bert_doc_embed(path):
         sentence = Sentence(f2)
         
         size = len(sentence)
-        token_count = size
+        if size<430:
+            token_count = size
         
-        #embed words in sentence
-        embedding.embed(sentence)
+            #embed words in sentence
+            embedding.embed(sentence)
         
-        A = sentence[0].embedding
-        for j in range(size-1):
-            A = A + sentence[j+1].embedding
+            A = sentence[0].embedding
+            for j in range(size-1):
+                A = A + sentence[j+1].embedding
+        else:
+            sentence = Sentence(f1[0])
+            size = len(sentence)
+            if size>430:
+                print('bad sentences')
+                return []
+            token_count = token_count + size
+                
+            #embed words in sentence
+            embedding.embed(sentence) 
+            
+            A = sentence[0].embedding
+            for j in range(size-1):
+                A = A + sentence[j+1].embedding
                 
         A = A/token_count
         
@@ -57,49 +72,139 @@ def bert_doc_embed(path):
     else:
         
         #create a sentence
-        sentence = Sentence(f1[0]+f1[1]+f1[2]+f1[3]+f1[4])
+        sentence = Sentence(f1[0]+f1[1]+f1[2])
         
         size = len(sentence)
-        token_count = token_count + size
-        
-        #embed words in sentence
-        embedding.embed(sentence)
-        
-        A = sentence[0].embedding
-        for j in range(size-1):
-            A = A + sentence[j+1].embedding
-            
-                
-        for i in range(quo-1):
-        
-            #create a sentence
-            sentence = Sentence(f1[5*(i+1)]+f1[5*(i+1)+1]+f1[5*(i+1)+2]+f1[5*(i+1)+3]+f1[5*(i+1)+4])
-        
-            size = len(sentence)
+        if size<430:
             token_count = token_count + size
+        
         
             #embed words in sentence
             embedding.embed(sentence)
+        
+            A = sentence[0].embedding
+            for j in range(size-1):
+                A = A + sentence[j+1].embedding
+        else:
+            sentence = Sentence(f1[0])
+            size = len(sentence)
+            if size>430:
+                print('bad sentences')
+                return []
+            token_count = token_count + size
+                
+            #embed words in sentence
+            embedding.embed(sentence) 
+            
+            A = sentence[0].embedding
+            for j in range(size-1):
+                A = A + sentence[j+1].embedding
+            
+            sentence = Sentence(f1[1])
+            size = len(sentence)
+            if size>430:
+                print('bad sentences')
+                return []
+             
+            token_count = token_count + size
+                
+            #embed words in sentence
+            embedding.embed(sentence) 
             
             for j in range(size):
-                A = A + sentence[j].embedding
+                A = A + sentence[j].embedding 
+                
+            sentence = Sentence(f1[2])
+            size = len(sentence)
+            if size>430:
+                print('bad sentences')
+                return []
+             
+            token_count = token_count + size
+                
+            #embed words in sentence
+            embedding.embed(sentence) 
+            
+            for j in range(size):
+                A = A + sentence[j].embedding             
+            
+        for i in range(quo-1):
+        
+            #create a sentence
+            sentence = Sentence(f1[3*(i+1)]+f1[3*(i+1)+1]+f1[3*(i+1)+2])
+        
+            size = len(sentence)
+            if size<430:
+                token_count = token_count + size
+        
+                #embed words in sentence
+                embedding.embed(sentence)
+            
+                for j in range(size):
+                    A = A + sentence[j].embedding
+            
+            else:
+                sentence = Sentence(f1[3*(i+1)])
+                size = len(sentence)
+                if size>430:
+                    print('bad sentences')
+                    return []
+                 
+                token_count = token_count + size
+                
+                #embed words in sentence
+                embedding.embed(sentence) 
+            
+                for j in range(size):
+                    A = A + sentence[j].embedding
+ 
+                sentence = Sentence(f1[3*(i+1)+1])
+                size = len(sentence)
+                if size>430:
+                    print('bad sentences')
+                    return []
+                 
+                token_count = token_count + size
+                
+                #embed words in sentence
+                embedding.embed(sentence) 
+            
+                for j in range(size):
+                    A = A + sentence[j].embedding
+                     
+                sentence = Sentence(f1[3*(i+1)+2])
+                size = len(sentence)
+                if size>430:
+                    print('bad sentences')
+                    return []
+ 
+                token_count = token_count + size
+                
+                #embed words in sentence
+                embedding.embed(sentence) 
+            
+                for j in range(size):
+                    A = A + sentence[j].embedding
+                      
         
         if diff!=0:           
-            f2 = f1[quo*5]        
-            for i in range(diff):
-                f2 = f2 + f1[5*quo+i]
+            f2 = f1[quo*3]        
+            for i in range(diff-1):
+                f2 = f2 + f1[3*quo+i+1]
         
             #create sentence
             sentence = Sentence(f2)
         
             size = len(sentence)
-            token_count = token_count + size
+            if size<430:
+                
+                token_count = token_count + size
         
-            #embed words in sentence
-            embedding.embed(sentence)
+                #embed words in sentence
+                embedding.embed(sentence)
         
-            for j in range(size):
-                A = A + sentence[j].embedding
+                for j in range(size):
+                    A = A + sentence[j].embedding
             
         A = A/token_count
         print('embed success2')
