@@ -40,7 +40,7 @@ def bert_doc_embed(path):
         sentence = Sentence(f2)
         
         size = len(sentence)
-        if size<430:
+        if size<300:
             token_count = size
         
             #embed words in sentence
@@ -52,7 +52,7 @@ def bert_doc_embed(path):
         else:
             sentence = Sentence(f1[0])
             size = len(sentence)
-            if size>430:
+            if size>300:
                 print('bad sentences')
                 return []
             token_count = token_count + size
@@ -75,7 +75,7 @@ def bert_doc_embed(path):
         sentence = Sentence(f1[0]+f1[1]+f1[2])
         
         size = len(sentence)
-        if size<430:
+        if size<300:
             token_count = token_count + size
         
         
@@ -88,7 +88,7 @@ def bert_doc_embed(path):
         else:
             sentence = Sentence(f1[0])
             size = len(sentence)
-            if size>430:
+            if size>300:
                 print('bad sentences')
                 return []
             token_count = token_count + size
@@ -102,7 +102,7 @@ def bert_doc_embed(path):
             
             sentence = Sentence(f1[1])
             size = len(sentence)
-            if size>430:
+            if size>300:
                 print('bad sentences')
                 return []
              
@@ -116,7 +116,7 @@ def bert_doc_embed(path):
                 
             sentence = Sentence(f1[2])
             size = len(sentence)
-            if size>430:
+            if size>300:
                 print('bad sentences')
                 return []
              
@@ -134,7 +134,7 @@ def bert_doc_embed(path):
             sentence = Sentence(f1[3*(i+1)]+f1[3*(i+1)+1]+f1[3*(i+1)+2])
         
             size = len(sentence)
-            if size<430:
+            if size<300:
                 token_count = token_count + size
         
                 #embed words in sentence
@@ -146,7 +146,7 @@ def bert_doc_embed(path):
             else:
                 sentence = Sentence(f1[3*(i+1)])
                 size = len(sentence)
-                if size>430:
+                if size>300:
                     print('bad sentences')
                     return []
                  
@@ -160,7 +160,7 @@ def bert_doc_embed(path):
  
                 sentence = Sentence(f1[3*(i+1)+1])
                 size = len(sentence)
-                if size>430:
+                if size>300:
                     print('bad sentences')
                     return []
                  
@@ -174,7 +174,7 @@ def bert_doc_embed(path):
                      
                 sentence = Sentence(f1[3*(i+1)+2])
                 size = len(sentence)
-                if size>430:
+                if size>300:
                     print('bad sentences')
                     return []
  
@@ -196,7 +196,7 @@ def bert_doc_embed(path):
             sentence = Sentence(f2)
         
             size = len(sentence)
-            if size<430:
+            if size<300:
                 
                 token_count = token_count + size
         
@@ -219,7 +219,7 @@ vectors = [[],[],[],[],[],[],[],[],[],[]]
 
         
 #number of vectors of each topic created
-vec_number = 50
+vec_number = 30
 
 for i in range(10):        
     if i!=0 and i!=8:
