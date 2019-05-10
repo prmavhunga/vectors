@@ -12,32 +12,43 @@ import numpy as np
 from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 
-with open('/Users/Ani/Desktop/bert-topic-vecs2.pkl', 'rb') as f:
-    v = pickle.load(f)
-    f.close()
-    
-vecs = [[],[],[],[],[],[],[],[],[],[]]
-    
-for i in range(10):
-    if i!=0 and i!=8:
-        for a in v[i]:
-            vecs[i].append([a[0],a[1].numpy()])
 
-del vecs[8]
-del vecs[0]
+#with open('/Users/Ani/Desktop/bert-topic-vecs2.pkl', 'rb') as f:
+#    v = pickle.load(f)
+#    f.close()
+#    
+#vecs = [[],[],[],[],[],[],[],[],[],[]]
+#    
+#for i in range(10):
+#    if i!=0 and i!=8:
+#        for a in v[i]:
+#            vecs[i].append([a[0],a[1].numpy()])
+#
+#del vecs[8]
+#del vecs[0]
+
+with open('/Users/Ani/Desktop/bert-topic-vecs-year-centered.pkl', 'rb') as f:
+    vecs = pickle.load(f)
+    f.close()
 
 matrix = np.zeros((8,100,3072))
-
 for i in range(8):
     for j in range(100):
         matrix[i][j] = vecs[i][j][1]
-        
+
+#for i in range(8):
+#    for j in range(100):
+#        if np.linalg.norm(vecs[i][j][1]) != 0:
+#            matrix[i][j] = (vecs[i][j][1]/np.linalg.norm(vecs[i][j][1]))
+#        else:
+#            matrix[i][j] = vecs[i][j][1]
+#        
 X = matrix[0]        
 for i in range(7):
     X = np.concatenate((X,matrix[i+1]))
     
-#Y1= PCA(n_components=15).fit_transform(X)   
-Y = TSNE(n_components=2).fit_transform(X)     
+Y1= PCA(n_components=50).fit_transform(X)   
+Y = TSNE(n_components=2).fit_transform(Y1)     
 #Y_1 = PCA(n_components=20).fit_transform(matrix[0])
 #Y_2 = PCA(n_components=20).fit_transform(matrix[1])
 #Y_3 = PCA(n_components=20).fit_transform(matrix[2])
@@ -68,3 +79,4 @@ plt.plot(Y.T[0][0:100],Y.T[1][0:100],'r+', Y.T[0][100:200],Y.T[1][100:200],'b+',
          Y.T[0][400:500],Y.T[1][400:500],'c+', Y.T[0][500:600],Y.T[1][500:600],'m+',
          Y.T[0][600:700],Y.T[1][600:700],'k+')
                 
+
