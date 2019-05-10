@@ -31,6 +31,6 @@ for a in lis:
 #        pickle.dump(geniss[i],file)
 #        file.close()
         
-file = open('/Users/Ani/Desktop/Geniss/geniss.pkl','wb')
-pickle.dump(geniss,file)
-file.close()
+#file = open('/Users/Ani/Desktop/Geniss/geniss.pkl','wb')
+#pickle.dump(geniss,file)
+#file.close()
