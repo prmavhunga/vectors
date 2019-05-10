@@ -17,7 +17,13 @@ path = '/Users/Ani/Desktop/circuit-cases/sentences_new/sent_1999/X3AV14_contentM
 # initialize embedding
 embedding = BertEmbeddings('bert-base-uncased')
 #To avoid overflow. OBSERVED OVERFLOW AT >=300. Better if less than 250.
-MAX = 250
+MAX = 200
+
+#for below function:
+# output: embed success2 - (No problems)
+# output: embed success1 - (number of sentences smaller than 3 in text. No problems)
+# output: bad sentences - (there is atleast one sentence that expands to a sentence longer than MAX
+#   after tokenisation for BERT. This case returns null torch tensor - torch.tensor([]))
 
 def bert_doc_embed(path):
     
